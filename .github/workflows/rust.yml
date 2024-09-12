@@ -12,16 +12,16 @@ env:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set environment variable on Windows
-      run: echo "RED_HOME=D:\a\red-editor\red-editor" | Out-File -FilePath $env:GITHUB_ENV -Append
+    - name: Set environment variable
+      run: echo "RED_HOME=$(pwd)" >> "$GITHUB_ENV"
     - name: Build
       run: cargo build --release
     - name: upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: target/release
         compression-level: 9
@@ -29,6 +29,6 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         draft: true
-        files: "red*"
+        files: "target/release/red"
         if: startsWith( github.ref, 'refs/tags/' )
       
