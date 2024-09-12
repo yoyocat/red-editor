@@ -16,8 +16,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Set environment variable on Windows
+      run: echo "RED_HOME=D:\a\red-editor\red-editor" | Out-File -FilePath $env:GITHUB_ENV -Append
     - name: Build
-      run: cargo build --verbose
+      run: cargo build --release
     - name: upload
       uses: actions/upload-artifact@v3
       
